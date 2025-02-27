@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+ * File: index.js
+ * Created Date: Thursday February 27th 2025 12:50:47
+ * Author: ristoxxx@github.com
+ * -----
+ * Last Modified: Thursday February 27th 2025 12:50:57
+ * Modified By: ristoxxx@github.com
+ * -----
+ * Copyright (c) 2025 ristoxxx@github.com
+ -->
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <title>Hello from Electron renderer!</title>
+  </head>
+  <body>
+    <h1>Hello from Electron renderer!</h1>
+    <p>👋</p>
+    <p id="info"></p>
+  </body>
+  <script src="renderer.js"></script>
+</html>
