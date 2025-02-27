@@ -3,16 +3,20 @@
  * Created Date: Thursday February 27th 2025 12:48:40
  * Author: ristoxxx@github.com
  * -----
- * Last Modified: Thursday February 27th 2025 03:37:56
+ * Last Modified: Thursday February 27th 2025 05:11:55
  * Modified By: ristoxxx@github.com
  * -----
  * Copyright (c) 2025 ristoxxx@github.com
  */
 
 const { app, BrowserWindow, shell, ipcMain } = require('electron');
-const path = require('node:path')
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const { exec } = require('child_process');
 
 if (require('electron-squirrel-startup')) app.quit();
+
 
 
 const createWindow = () => {
@@ -26,17 +30,31 @@ const createWindow = () => {
 
   win.loadFile('index.html')
 }
-ipcMain.on('open-documents', () => {
-    const oneDrivePath = process.env.ONEDRIVE || process.env.ONE_DRIVE; // Varmistetaan, että muuttujiin päästään käsiksi
-    if (oneDrivePath) {
-        shell.openPath(`${oneDrivePath}\\Documents`);
-    } else {
-        console.error('OneDrive-polku ei löytynyt.');
-    }
+
+ipcMain.handle('hae-linkit', async () => {
+    const data = fs.readFileSync(path.join(__dirname, 'linkit.json'), 'utf-8');
+    const linkit = JSON.parse(data);
+    return linkit;
 });
-function openDocumentsFolder() {
-    shell.openPath('C:\\Users');
-}
+
+// Avaa polku
+
+ipcMain.on('avaa-polku', (event, polku) => {
+    const oikeaPolku = polku.replace(/%([A-Z_]+)%/g, (_, key) => process.env[key] || key);
+
+    
+    if (oikeaPolku.startsWith("firefox")) {
+        const command = process.platform === "win32" ? `start firefox ${oikeaPolku.replace("firefox ", "")}` : oikeaPolku;
+        exec(command, (error) => {
+            if (error) {
+                console.error("Virhe avattaessa selainta:", error);
+            }
+        });
+    } else {
+        shell.openPath(oikeaPolku);
+    }
+    
+});
 
 app.whenReady().then(() => {
   createWindow()
