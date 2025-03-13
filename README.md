@@ -1,6 +1,6 @@
 # Electron.js desktop app project
 
-App is suppose to help to find files related to routine tasks
+App to keep my most important links in one place
 
 notes to myself:
 
