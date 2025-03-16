@@ -1,6 +1,6 @@
 # Electron.js desktop app project
 
-App to keep my most important links in one place.
+App to keep my most important links in one place
 
 notes to myself:
 
